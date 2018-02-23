@@ -1,0 +1,21 @@
+Première Démonstrtion:
+
+-faire un make :
+  make
+
+-lancer le shell:
+  ./mshell
+
+-exécuter une commande :
+
+
+
+
+#Commande 1: Exécution 'xeyes' en background:
+xeyes &;
+
+#Commande 2: Mettre xeyes en foreground:
+fg %1;
+
+#Commande 3 : pipe
+ls | head -5 | head -2;

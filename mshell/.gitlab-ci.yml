@@ -1,0 +1,4 @@
+image: commonci-fil:latest
+
+build:
+  script: make strict

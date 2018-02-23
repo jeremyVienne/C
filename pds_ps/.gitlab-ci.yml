@@ -1,0 +1,119 @@
+image: commonci-fil:latest
+
+stages:
+- multif:compile
+- multif:run
+- do:compile
+- do:run
+
+multif:compile:
+  stage: multif:compile
+  script: make -C fourche-observe multif
+  artifacts:
+    paths:
+    - fourche-observe/multif
+
+multif:test:1:
+  stage: multif:run
+  script: cd fourche-observe && ./multif true true
+  dependencies:
+  - multif:compile
+  allow_failure: true
+
+multif:test:2:
+  stage: multif:run
+  script: cd fourche-observe && ! ./multif true false
+  dependencies:
+  - multif:compile
+  allow_failure: true
+
+multif:test:3:
+  stage: multif:run
+  script: cd fourche-observe && ! ./multif false true
+  dependencies:
+  - multif:compile
+  allow_failure: true
+
+multif:test:4:
+  stage: multif:run
+  script: cd fourche-observe && ! ./multif false false
+  dependencies:
+  - multif:compile
+  allow_failure: true
+
+multif:test:5:
+  stage: multif:run
+  script: cd fourche-observe && ! ./multif true false true
+  dependencies:
+  - multif:compile
+  allow_failure: true
+
+multif:test:6:
+  stage: multif:run
+  script: cd fourche-observe && ! ./multif false true false
+  dependencies:
+  - multif:compile
+  allow_failure: true
+
+do:compile:
+  stage: do:compile
+  script: make -C do do
+  artifacts:
+    paths:
+    - do/do
+
+do:test:1:
+  stage: do:run
+  script: cd do && ./do -o true true
+  dependencies:
+  - do:compile
+  allow_failure: true
+
+do:test:2:
+  stage: do:run
+  script: cd do && ! ./do -o false false
+  dependencies:
+  - do:compile
+  allow_failure: true
+
+do:test:3:
+  stage: do:run
+  script: cd do && ./do -o true false
+  dependencies:
+  - do:compile
+  allow_failure: true
+
+do:test:4:
+  stage: do:run
+  script: cd do && ./do -o false true
+  dependencies:
+  - do:compile
+  allow_failure: true
+
+do:test:5:
+  stage: do:run
+  script: cd do && ./do -a true true
+  dependencies:
+  - do:compile
+  allow_failure: true
+
+do:test:6:
+  stage: do:run
+  script: cd do && ! ./do -a false false
+  dependencies:
+  - do:compile
+  allow_failure: true
+
+do:test:7:
+  stage: do:run
+  script: cd do && ! ./do -a true false
+  dependencies:
+  - do:compile
+  allow_failure: true
+
+do:test:8:
+  stage: do:run
+  script: cd do && ! ./do -a false true
+  dependencies:
+  - do:compile
+  allow_failure: true
